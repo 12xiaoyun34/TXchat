@@ -1,6 +1,160 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-<title>TXChat</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<body><script src="https://minnit.chat/js/embed.js?c=1752216300" defer></script><span style="display: none;" class="minnit-chat-sembed" data-chatname="https://organizations.minnit.chat/590866896400945/c/Main?embed" data-style="width:100%; height:100%; max-height:90vh;" data-version="1.52">Chat</span><p class="powered-by-minnit"></p></body>
-<html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安全验证 - TXChat</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+        body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
+        .container{background:rgba(255,255,255,0.9);border-radius:12px;box-shadow:0 15px 30px rgba(0,0,0,0.2);width:100%;max-width:450px;padding:40px;text-align:center}
+        .logo{margin-bottom:25px}
+        .logo h1{color:#333;font-size:28px;margin-bottom:8px}
+        .logo p{color:#666;font-size:16px}
+        .verification-box{background:#f8f9fa;border-radius:10px;padding:25px;margin-bottom:25px}
+        .input-area{margin-bottom:20px;text-align:left}
+        .input-area label{display:block;margin-bottom:8px;color:#444;font-weight:500}
+        .input-area input{width:100%;padding:15px;border:2px solid #ddd;border-radius:8px;font-size:16px;outline:none;transition:border-color 0.3s}
+        .input-area input:focus{border-color:#667eea;box-shadow:0 0 0 2px rgba(102,126,234,0.2)}
+        .attempts{color:#666;margin-bottom:15px;font-size:14px}
+        .attempts.warning{color:#e74c3c;font-weight:bold}
+        .btn{background:#667eea;color:white;border:none;padding:15px;width:100%;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:background 0.3s}
+        .btn:hover{background:#5a6fd5}
+        .btn:disabled{background:#ccc;cursor:not-allowed}
+        .lock-message{background:#ffeaa7;padding:15px;border-radius:8px;margin-top:20px;display:none}
+        .timer{font-weight:bold;color:#e74c3c}
+        .success-message{color:#27ae60;font-weight:600;margin-top:15px;display:none}
+        @media (max-width:480px){.container{padding:25px}.input-area input{padding:12px;font-size:16px}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>TXChat</h1>
+            <p>安全验证</p>
+        </div>
+        
+        <div class="verification-box">
+            <div class="input-area">
+                <label for="pwd-input">请输入密码</label>
+                <input type="password" id="pwd-input" placeholder="输入您的密码" autocomplete="off">
+            </div>
+            
+            <div class="attempts" id="attempt-msg">剩余尝试次数: 5</div>
+            
+            <button class="btn" id="check-btn">验证</button>
+            
+            <div class="lock-message" id="lock-msg">
+                输入错误次数过多，请 <span class="timer" id="timer">60</span> 秒后再试
+            </div>
+            
+            <div class="success-message" id="success-msg">
+                验证成功！正在跳转...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        !function(){
+            function _0x12ab() {
+                var _0x2c8d = [0x74, 0x78, 0x31, 0x31, 0x36, 0x6e, 0x62];
+                return String.fromCharCode.apply(null, _0x2c8d);
+            }
+            var _0x51c2f6 = '#' + _0x12ab();
+            
+            var e = document,
+                t = e.getElementById("pwd-input"),
+                n = e.getElementById("check-btn"),
+                a = e.getElementById("attempt-msg"),
+                o = e.getElementById("lock-msg"),
+                r = e.getElementById("timer"),
+                i = e.getElementById("success-msg"),
+                l = 5,
+                d = false;
+
+            t.focus();
+            
+            function u() {
+                if (!d) {
+                    var e_val = t.value.trim();
+                    if (function(input) {
+                        var target_sum = 0;
+                        for (var n = 0; n < _0x51c2f6.length; n++) {
+                            target_sum += _0x51c2f6.charCodeAt(n);
+                        }
+                        var input_sum = 0;
+                        for (var n = 0; n < input.length; n++) {
+                            input_sum += input.charCodeAt(n);
+                        }
+                        return input_sum === target_sum;
+                    }(e_val)) {
+                        i.style.display = "block";
+                        n.disabled = true;
+                        t.disabled = true;
+                        setTimeout(function() {
+                            window.location.href = "main.html";
+                        }, 1500);
+                    } else {
+                        l--;
+                        if (l > 0) {
+                            a.textContent = "密码错误，剩余尝试次数: " + l;
+                            a.classList.add("warning");
+                            t.value = "";
+                            t.focus();
+                            t.style.animation = "shake 0.5s";
+                            setTimeout(function() {
+                                t.style.animation = "";
+                            }, 500);
+                        } else {
+                            m();
+                        }
+                    }
+                }
+            }
+            
+            function m() {
+                d = true;
+                a.style.display = "none";
+                o.style.display = "block";
+                n.disabled = true;
+                t.disabled = true;
+                var timeLeft = 60;
+                r.textContent = timeLeft;
+                var countdown = setInterval(function() {
+                    timeLeft--;
+                    r.textContent = timeLeft;
+                    if (timeLeft <= 0) {
+                        clearInterval(countdown);
+                        v();
+                    }
+                }, 1000);
+            }
+            
+            function v() {
+                d = false;
+                l = 5;
+                a.textContent = "剩余尝试次数: " + l;
+                a.classList.remove("warning");
+                a.style.display = "block";
+                o.style.display = "none";
+                n.disabled = false;
+                t.disabled = false;
+                t.value = "";
+                t.focus();
+            }
+            
+            // 修复事件监听
+            n.onclick = u;
+            t.onkeyup = function(event) {
+                if (event.key === "Enter") {
+                    u();
+                }
+            };
+            
+            var p = document.createElement("style");
+            p.textContent = "@keyframes shake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-5px)}20%,40%,60%,80%{transform:translateX(5px)}}";
+            document.head.appendChild(p);
+        }();
+    </script>
+</body>
+</html>

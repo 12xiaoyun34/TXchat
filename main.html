@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>TXChat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+        }
+        
+        .chat-container {
+            width: 100%;
+            max-width: 900px;
+            height: 70vh;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .chat-container {
+                height: 80vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>TXChat</h1>
+        <p>TOC - TX ONLINE CHAT</p>
+    </div>
+    
+    <div class="chat-container">
+        <script src="https://minnit.chat/js/embed.js?c=1752216300" defer></script>
+        <span style="display: none;" class="minnit-chat-sembed" 
+              data-chatname="https://organizations.minnit.chat/590866896400945/c/Main?embed" 
+              data-style="width:100%; height:100%; max-height:90vh;" 
+              data-version="1.52">Chat</span>
+    </div>
+    
+    <div class="footer">
+        <p class="powered-by-minnit">Powered by Minnit Chat</p>
+        <p>i 点击头像可更改头像及名称，进入时建议说明队内名称</p>
+        <p>© 2025 TXChat - 网站归TX所有</p>
+    </div>
+</body>
+</html>
